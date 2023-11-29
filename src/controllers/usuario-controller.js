@@ -52,7 +52,28 @@ const editarUsuario = async (req, res) => {
   }
 };
 
+const detalharUsuario = async (req,res) =>{
+  const { id} = req.headers;
+
+  try{
+    const usuario = await knex("usuarios")
+    .select("*")
+    .from("usuarios")
+    .where("id", "=",id)
+    .first();
+
+    if(!usuario){
+      return res.status(400).json({error:"Usuario Não encontrado"})
+    }
+
+    return res.status(200).json(usuario);
+  }catch(error){
+    console.log(error.message)
+  }
+}
+
 module.exports = {
   cadastrarUsuario,
   editarUsuario,
+  detalharUsuario,
 };

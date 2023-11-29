@@ -20,4 +20,8 @@ rotas.put(
   middlewaresUsuario.verificarEmailUsuario,
   controllersUsuario.editarUsuario
 );
+
+rotas.get("/usuario",
+validarCampos(schemaUsuario),
+controllersUsuario.detalharUsuario)
 module.exports = rotas;
