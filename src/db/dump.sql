@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS public.usuarios
 (
     id serial,
     nome text NOT NULL,
-    email character varying(256)[] NOT NULL,
-    senha text,
+    email text NOT NULL,
+    senha text NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT email UNIQUE (email)
         INCLUDE(email)
