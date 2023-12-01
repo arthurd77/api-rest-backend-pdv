@@ -1,40 +1,39 @@
-const jwt = require('jsonwebtoken')
-const senhaJwt = require('../../.private/.key')
-const joi = require('joi')
+const jwt = require("jsonwebtoken");
+const senhaJwt = require("../../.private/.key");
 
 const validarToken = async (req, res, next) => {
-    const { authorization } = req.headers
-    if (!authorization) {
-        return res.status(401).json({ mensagem: "Para acessar este recurso um token de autenticação válido deve ser enviado" })
-    }
-    const token = authorization.split(' ')[1]
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(401).json({
+      mensagem:
+        "Para acessar este recurso um token de autenticação válido deve ser enviado",
+    });
+  }
+  const token = authorization.split(" ")[1];
 
-    try {
-        const tokenUsuario = jwt.verify(token, senhaJwt);
+  try {
+    const tokenUsuario = jwt.verify(token, senhaJwt);
 
-        req.usuarioId = tokenUsuario.id;
+    req.usuarioId = tokenUsuario.id;
 
-        next();
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ mensagem: "Erro interno do servidor" });
+  }
+};
 
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ mensagem: "Erro interno do servidor" })
-    }
-}
-
-const validarCampos = joiSchema => async (req, res, next) => {
-    try {
-        await joiSchema.validateAsync(req.body)
-        next()
-    } catch (error) {
-        console.log(error);
-        return res.status(400).json({ mensagem: error.message })
-    }
-
-}
-
+const validarCampos = (joiSchema) => async (req, res, next) => {
+  try {
+    await joiSchema.validateAsync(req.body);
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ mensagem: error.message });
+  }
+};
 
 module.exports = {
-    validarToken,
-    validarCampos
-}
+  validarToken,
+  validarCampos,
+};

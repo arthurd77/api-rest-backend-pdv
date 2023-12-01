@@ -1,14 +1,14 @@
-const express = require('express');
-const { cadastrarUsuario } = require('../controllers/cadastrar');
-const { validarCampos } = require('../middlewares/middlewares');
-const schemaUsuario = require('../utils/validarCampos');
+const express = require("express");
+const controllersUsuario = require("../controllers/usuario-controller");
+const { validarCampos } = require("../middlewares/middlewares");
+const schemaUsuario = require("../utils/validarCampos");
 
+const rotas = express.Router();
 
-const rotas = express.Router()
+rotas.post(
+  "/usuario",
+  validarCampos(schemaUsuario),
+  controllersUsuario.cadastrarUsuario
+);
 
-rotas.post('/usuario', validarCampos(schemaUsuario), cadastrarUsuario)
-
-
-
-
-module.exports = rotas
+module.exports = rotas;
