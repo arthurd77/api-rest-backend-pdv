@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const senhaJwt = require("../../.private/.key");
-const knex = require('../db/conexao')
+const knex = require("../db/conexao");
 
 const validarToken = async (req, res, next) => {
   const { authorization } = req.headers;
@@ -35,19 +35,23 @@ const validarCampos = (joiSchema) => async (req, res, next) => {
 };
 
 const verificarEmailUsuario = async (req, res, next) => {
-  const email = req.body
-  const emailExistente = await knex('usuarios').select('email').from('usuarios').where('email', '=', email).first()
+  const email = req.body;
+  const emailExistente = await knex("usuarios")
+    .select("email")
+    .from("usuarios")
+    .where("email", "=", email)
+    .first();
 
-  if (emailExistente && emailExistente.id !== req.usuarioId){
+  if (emailExistente && emailExistente.id !== req.usuarioId) {
     return res.status(403).json({
-      "mensagem": "Você não pode realizar essa ação"
-    })
+      mensagem: "Você não pode realizar essa ação",
+    });
   }
-  return next()
-}
+  return next();
+};
 
 module.exports = {
   validarToken,
   validarCampos,
-  verificarEmailUsuario
+  verificarEmailUsuario,
 };

@@ -34,15 +34,22 @@ const cadastrarUsuario = async (req, res) => {
   }
 };
 
-const editarUsuario = (req, res) => {
-  const { nome, email, senha } = req.body;
-  const senhaCriptografada = bcrypt.hash(senha, 10);
+const editarUsuario = async (req, res) => {
+  try {
+    const { nome, email, senha } = req.body;
+    const senhaCriptografada = bcrypt.hash(senha, 10);
 
-  knex("usuarios")
-    .update({ nome, email, senha: senhaCriptografada })
-    .where("id", req.usuarioId);
+    await knex("usuarios")
+      .update({ nome, email, senha: senhaCriptografada })
+      .where("id", req.usuarioId);
 
-  return res.status(204).json();
+    return res.status(204).json();
+  } catch (Error) {
+    console.error(Error);
+    return res.status(500).json({
+      mensagem: "Erro interno do servidor",
+    });
+  }
 };
 
 module.exports = {

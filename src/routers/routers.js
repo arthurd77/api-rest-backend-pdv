@@ -12,6 +12,8 @@ rotas.post(
   controllersUsuario.cadastrarUsuario
 );
 
+rotas.use(middlewaresUsuario.validarToken); // route middleware //colocar todos end points que precisam de token abaixo dessa funçao.
+
 rotas.put(
   "/usuario",
   validarCampos(schemaUsuario),
