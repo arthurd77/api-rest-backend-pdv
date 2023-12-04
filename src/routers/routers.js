@@ -26,7 +26,7 @@ rotas.put(
 );
 
 rotas.get("/usuario",
-  // validarCampos(schemaUsuario),
+
   controllersUsuario.detalharUsuario)
 
 
