@@ -37,7 +37,7 @@ const cadastrarUsuario = async (req, res) => {
 const editarUsuario = async (req, res) => {
   try {
     const { nome, email, senha } = req.body;
-    const senhaCriptografada = bcrypt.hash(senha, 10);
+    const senhaCriptografada = await bcrypt.hash(senha, 10);
 
     await knex("usuarios")
       .update({ nome, email, senha: senhaCriptografada })
