@@ -1,4 +1,3 @@
-const { log } = require("console");
 const knex = require("../db/conexao");
 
 const listarCategoria = async (req,res) =>{

@@ -19,7 +19,6 @@ const validarToken = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };
@@ -29,25 +28,35 @@ const validarCampos = (joiSchema) => async (req, res, next) => {
     await joiSchema.validateAsync(req.body);
     next();
   } catch (error) {
-    console.log(error);
     return res.status(400).json({ mensagem: error.message });
   }
 };
 
 const verificarEmailUsuario = async (req, res, next) => {
-  const email = req.body;
-  const emailExistente = await knex("usuarios")
-    .select("email")
-    .from("usuarios")
-    .where("email", "=", email)
-    .first();
-
-  if (emailExistente && emailExistente.id !== req.usuarioId) {
-    return res.status(403).json({
-      mensagem: "Você não pode realizar essa ação",
-    });
+  try {
+    const {email} = req.body;
+    const emailExistente = await knex("usuarios")
+        .select("email")
+        .from("usuarios")
+        .where("email", email)
+        .first();
+    if ( req.method === 'PUT' && emailExistente && emailExistente.id !== req.usuarioId) {
+      return res.status(403).json({
+        mensagem: "Você não pode realizar essa ação",
+      });
+    }
+    if (req.method === "POST" && emailExistente){
+      return res.status(401).json({
+        mensagem: "E-mail já está sendo utilizado.",
+      });
+    }
+    return next();
   }
-  return next();
+  catch (erorr){
+    return res.status(500).json({
+      mensagem: "Erro interno do Servidor"
+    })
+  }
 };
 
 module.exports = {
