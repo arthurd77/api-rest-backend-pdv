@@ -28,16 +28,12 @@ rotas.put(
   controllersUsuario.editarUsuario
 );
 
-rotas.get("/usuario",
-<<<<<<< HEAD
-
-  controllersUsuario.detalharUsuario)
+rotas.get("/usuario", controllersUsuario.detalharUsuario)
 
 
 
-=======
-validarCampos(schemaUsuario),
-controllersUsuario.detalharUsuario)
->>>>>>> origin/lith
+
+validarCampos(schemaUsuario),controllersUsuario.detalharUsuario
+
 
 module.exports = rotas;
