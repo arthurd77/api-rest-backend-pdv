@@ -4,6 +4,7 @@ const { validarCampos } = require("../middlewares/middlewares");
 const schemaUsuario = require("../utils/validarCampos");
 const middlewaresUsuario = require("../middlewares/middlewares");
 
+
 const rotas = express.Router();
 
 rotas.post(
@@ -11,6 +12,9 @@ rotas.post(
   validarCampos(schemaUsuario),
   controllersUsuario.cadastrarUsuario
 );
+rotas.post("/login", middlewaresUsuario.verificarEmailUsuario,
+  controllersUsuario.loginDoUsuario)
+
 
 rotas.use(middlewaresUsuario.validarToken); // route middleware //colocar todos end points que precisam de token abaixo dessa funçao.
 
@@ -22,6 +26,10 @@ rotas.put(
 );
 
 rotas.get("/usuario",
-validarCampos(schemaUsuario),
-controllersUsuario.detalharUsuario)
+  // validarCampos(schemaUsuario),
+  controllersUsuario.detalharUsuario)
+
+
+
+
 module.exports = rotas;
