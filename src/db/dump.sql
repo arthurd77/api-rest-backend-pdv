@@ -1,22 +1,32 @@
-create table usuarios(
- id serial primary key,
-  nome text not null,
-  email varchar(200) not null unique,
-  senha text not null
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS public.usuarios
+(
+    id serial,
+    nome text NOT NULL,
+    email text NOT NULL,
+    senha text NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT email UNIQUE (email)
+        INCLUDE(email)
 );
 
-create table categorias(
- id serial primary key,
-  descricao text not null
+CREATE TABLE IF NOT EXISTS public.categorias
+(
+    id serial,
+    descricao text NOT NULL,
+    PRIMARY KEY (id)
 );
 
-insert into categorias(descricao) values
-('Informática'),
-('Celulares'),
-('Beleza e Perfumaria'),
-('Mercado'),
-('Livros e Papelaria'),
-('Brinquedos'),
-('Moda'),
-('Bebê'),
-('Games');
+INSERT INTO categorias (descricao) VALUES ('Informática'); 
+INSERT INTO categorias (descricao) VALUES ('Celulares');
+INSERT INTO categorias (descricao) VALUES ('Beleza e Perfumaria');
+INSERT INTO categorias (descricao) VALUES ('Mercado'); 
+INSERT INTO categorias (descricao) VALUES ('Livros e Papelaria'); 
+INSERT INTO categorias (descricao) VALUES ('Brinquedos'); 
+INSERT INTO categorias (descricao) VALUES ('Moda'); 
+INSERT INTO categorias (descricao) VALUES ('Bebê'); 
+INSERT INTO categorias (descricao) VALUES ('Games');
+
+
+END;
