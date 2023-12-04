@@ -3,6 +3,7 @@ const controllersUsuario = require("../controllers/usuario-controller");
 const { validarCampos } = require("../middlewares/middlewares");
 const schemaUsuario = require("../utils/validarCampos");
 const middlewaresUsuario = require("../middlewares/middlewares");
+const { listarCategoria } = require("../controllers/others");
 
 
 const rotas = express.Router();
@@ -16,6 +17,8 @@ rotas.post("/login", middlewaresUsuario.verificarEmailUsuario,
   controllersUsuario.loginDoUsuario)
 
 
+rotas.get('/categoria', listarCategoria)
+
 rotas.use(middlewaresUsuario.validarToken); // route middleware //colocar todos end points que precisam de token abaixo dessa funçao.
 
 rotas.put(
@@ -26,10 +29,15 @@ rotas.put(
 );
 
 rotas.get("/usuario",
+<<<<<<< HEAD
 
   controllersUsuario.detalharUsuario)
 
 
 
+=======
+validarCampos(schemaUsuario),
+controllersUsuario.detalharUsuario)
+>>>>>>> origin/lith
 
 module.exports = rotas;
