@@ -25,7 +25,7 @@ const validarToken = async (req, res, next) => {
 
 const validarCampos = (joiSchema) => async (req, res, next) => {
   try {
-    await joiSchema.validateAsync(req.body);
+    await joiSchema.validateAsync(req.body)
     next();
   } catch (error) {
     return res.status(400).json({ mensagem: error.message });
@@ -36,10 +36,11 @@ const verificarEmailUsuario = async (req, res, next) => {
   try {
     const {email} = req.body;
     const emailExistente = await knex("usuarios")
-        .select("email")
+        .select("id", "email")
         .from("usuarios")
         .where("email", email)
         .first();
+    console.log(emailExistente.id)
     if ( req.method === 'PUT' && emailExistente && emailExistente.id !== req.usuarioId) {
       return res.status(403).json({
         mensagem: "Você não pode realizar essa ação",
