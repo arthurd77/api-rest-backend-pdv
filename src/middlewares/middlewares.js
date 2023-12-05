@@ -40,15 +40,14 @@ const verificarEmailUsuario = async (req, res, next) => {
         .from("usuarios")
         .where("email", email)
         .first();
-    console.log(emailExistente.id)
-    if ( req.method === 'PUT' && emailExistente && emailExistente.id !== req.usuarioId) {
-      return res.status(403).json({
-        mensagem: "Você não pode realizar essa ação",
-      });
-    }
     if (req.method === "POST" && emailExistente){
       return res.status(401).json({
         mensagem: "E-mail já está sendo utilizado.",
+      });
+    }
+    if ( req.method === 'PUT' && emailExistente && emailExistente.id !== req.usuarioId) {
+      return res.status(403).json({
+        mensagem: "Você não pode realizar essa ação",
       });
     }
     return next();
