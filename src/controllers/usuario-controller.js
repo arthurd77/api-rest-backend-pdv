@@ -23,9 +23,6 @@ const cadastrarUsuario = async (req, res) => {
 
 const loginDoUsuario = async (req, res) => {
   const { email, senha } = req.body;
-  if (!email || !senha) {
-    return res.status(401).json({ mensagem: "Preencha todos os campos!" })
-  }
   try {
     const usuarios = await knex('usuarios').select('*').from('usuarios').where('email', '=', email);
     if (usuarios.length < 1) {

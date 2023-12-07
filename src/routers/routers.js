@@ -1,20 +1,20 @@
 const express = require("express");
 const controllersUsuario = require("../controllers/usuario-controller");
-const {validarCampos} = require("../middlewares/middlewares");
 const schemaUsuario = require("../utils/validarCampos");
 const middlewaresUsuario = require("../middlewares/middlewares");
 const {listarCategoria} = require("../controllers/categoria-controller");
+const validarLogin = require("../utils/validarCamposLogin")
 
 
 const rotas = express.Router();
 
 rotas.post(
     "/usuario",
-    validarCampos(schemaUsuario.schemaUsuario),
+    middlewaresUsuario.validarCampos(schemaUsuario),
     middlewaresUsuario.verificarEmailUsuario, controllersUsuario.cadastrarUsuario
 );
 
-rotas.post("/login", validarCampos(schemaUsuario.schemaUsuarioLogin),
+rotas.post("/login",middlewaresUsuario.validarCampos(validarLogin),
     controllersUsuario.loginDoUsuario);
 
 rotas.get("/categorias", listarCategoria);
@@ -23,7 +23,7 @@ rotas.use(middlewaresUsuario.validarToken); // route middleware //colocar todos 
 
 rotas.put(
     "/usuario",
-    validarCampos(schemaUsuario),
+    middlewaresUsuario.validarCampos(schemaUsuario),
     middlewaresUsuario.verificarEmailUsuario,
     controllersUsuario.editarUsuario
 );
