@@ -3,6 +3,7 @@ const controllersUsuario = require("../controllers/usuario-controller");
 const {validarCampos} = require("../middlewares/middlewares");
 const schemaUsuario = require("../utils/validarCampos");
 const middlewaresUsuario = require("../middlewares/middlewares");
+const {listaProduto,deletaProduto} = require('../controllers/produto-controller')
 const {listarCategoria} = require("../controllers/categoria-controller");
 
 
@@ -29,5 +30,7 @@ rotas.put(
 );
 
 rotas.get("/usuario", controllersUsuario.detalharUsuario)
+rotas.get("/listaProduto",listaProduto)
+rotas.delete("/deletaItem/:id",deletaProduto)
 
 module.exports = rotas;
