@@ -2,8 +2,10 @@ const express = require("express");
 const controllersUsuario = require("../controllers/usuario-controller");
 const schemaUsuario = require("../utils/validarCampos");
 const middlewaresUsuario = require("../middlewares/middlewares");
-const {listarCategoria} = require("../controllers/categoria-controller");
-const validarLogin = require("../utils/validarCamposLogin")
+const { listarCategoria } = require("../controllers/categoria-controller");
+const validarLogin = require("../utils/validarCamposLogin");
+const schemaCategoria = require("../utils/validarProduto");
+const cadastrarProduto = require("../controllers/produto-controllers");
 
 
 const rotas = express.Router();
@@ -14,7 +16,7 @@ rotas.post(
     middlewaresUsuario.verificarEmailUsuario, controllersUsuario.cadastrarUsuario
 );
 
-rotas.post("/login",middlewaresUsuario.validarCampos(validarLogin),
+rotas.post("/login", middlewaresUsuario.validarCampos(validarLogin),
     controllersUsuario.loginDoUsuario);
 
 rotas.get("/categorias", listarCategoria);
@@ -29,5 +31,7 @@ rotas.put(
 );
 
 rotas.get("/usuario", controllersUsuario.detalharUsuario)
+
+rotas.post("/produto", middlewaresUsuario.verificarProdutos(schemaCategoria), cadastrarProduto)
 
 module.exports = rotas;
