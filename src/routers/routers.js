@@ -36,4 +36,6 @@ rotas.get("/usuario", controllersUsuario.detalharUsuario);
 
 rotas.get("/cliente", controllerCliente.listarClientes);
 
+rotas.get("/cliente/:id", controllerCliente.detalharCliente);
+
 module.exports = rotas;
