@@ -7,8 +7,7 @@ const listarClientes = async (req, res) => {
 };
 
 const detalharCliente = async (req, res) => {
-  const clienteId = req.params.id;
-  const cliente = await knex("clientes").select("*").where("id", clienteId);
+  const cliente = req.cliente;
 
   return res.status(200).json(cliente);
 };
