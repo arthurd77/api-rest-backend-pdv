@@ -1,6 +1,8 @@
 const knex = require("../db/conexao");
 
-const cadastrarProduto = async (res, req) => {
+const cadastrarProduto = async (req, res) => {
+
+
   const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
 
   try {
@@ -12,14 +14,17 @@ const cadastrarProduto = async (res, req) => {
       return res.status(404).json({ mensagem: "Categoria não existe." });
     }
     const cadastrar = await knex("produtos").insert({
-      descricao: "descricao",
-      quantidade_estoque: "quantidade_estoque",
-      valor: "valor",
-      categoria_id: "categoria_id",
-    });
+      descricao,
+      quantidade_estoque,
+      valor,
+      categoria_id,
+    }).returning('*');
+
 
     return res.status(201).json(cadastrar);
+
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ mensagem: "Erro interno no servidor" });
   }
 };

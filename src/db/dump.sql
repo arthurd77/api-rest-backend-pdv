@@ -32,7 +32,7 @@ create table produtos (
 id serial primary key,
  descricao varchar(200),
   quantidade_estoque integer,
-  valor numeric(10,2),
+  valor integer,
   categoria_id integer,
   foreign key (categoria_id) references categorias(id)
 );
