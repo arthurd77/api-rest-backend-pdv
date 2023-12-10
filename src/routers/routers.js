@@ -9,6 +9,7 @@ const middlewareCliente = require("../middlewares/cliente-middleware");
 const { listarCategoria } = require("../controllers/categoria-controller");
 const controllerProduto = require("../controllers/produto-controllers");
 const schemaEditProduct = require("../utils/validarEditarProduto");
+const clienteSchema = require("../utils/validarCliente");
 
 const rotas = express.Router();
 
@@ -45,6 +46,23 @@ rotas.get(
   middlewareCliente.clienteExiste,
   controllerCliente.detalharCliente
 );
+
+rotas.put(
+  "/cliente/:id",
+  middlewareCliente.validarCliente(clienteSchema),
+  middlewareCliente.verificarEmailCliente,
+  middlewareCliente.verificarCPFCliente,
+  controllerCliente.editarCliente
+  
+)
+
+rotas.post(
+  "/cliente",
+  middlewareCliente.validarCliente(clienteSchema),
+  middlewareCliente.verificarEmailCliente,
+  middlewareCliente.verificarCPFCliente,
+  controllerCliente.cadastrarCliente
+  )
 
 rotas.post(
   "/produto",

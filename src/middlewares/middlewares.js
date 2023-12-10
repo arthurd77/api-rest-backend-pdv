@@ -78,5 +78,5 @@ module.exports = {
   validarToken,
   validarCampos,
   verificarEmailUsuario,
-  verificarProdutos
+  verificarProdutos,
 };
