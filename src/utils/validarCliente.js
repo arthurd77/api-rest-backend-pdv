@@ -16,6 +16,14 @@ const clienteSchema = joi.object({
       "any.required": "O campo cpf é obrigatório.",
       "string.empty": "O campo cpf não pode estar vázio",
     }),
+    cep: joi.string(),
+    rua: joi.string(),
+    numero: joi.string(),
+    bairro: joi.string(),
+    cidade: joi.string(),
+    estado: joi.string()
+
+
   });
   
   module.exports = clienteSchema;

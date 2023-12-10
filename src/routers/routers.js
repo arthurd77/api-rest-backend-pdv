@@ -13,23 +13,6 @@ const clienteSchema = require("../utils/validarCliente");
 
 const rotas = express.Router();
 
-rotas.put(
-  "/cliente/:id",
-  middlewareCliente.validarCliente(clienteSchema),
-  middlewareCliente.verificarEmailCliente,
-  middlewareCliente.verificarCPFCliente,
-  controllerCliente.editarCliente
-  
-)
-
-rotas.post(
-  "/cliente",
-  middlewareCliente.validarCliente(clienteSchema),
-  middlewareCliente.verificarEmailCliente,
-  middlewareCliente.verificarCPFCliente,
-  controllerCliente.cadastrarCliente
-  )
-
 rotas.post(
   "/usuario",
   middlewaresUsuario.validarCampos(schemaUsuario),
@@ -63,6 +46,15 @@ rotas.get(
   middlewareCliente.clienteExiste,
   controllerCliente.detalharCliente
 );
+
+rotas.put(
+  "/cliente/:id",
+  middlewareCliente.validarCliente(clienteSchema),
+  middlewareCliente.verificarEmailCliente,
+  middlewareCliente.verificarCPFCliente,
+  controllerCliente.editarCliente
+  
+)
 
 rotas.post(
   "/cliente",

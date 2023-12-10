@@ -22,9 +22,10 @@ const clienteExiste = async (req, res, next) => {
 const validarCliente = (schema) => async (req, res, next) => {
   try {
     await schema.validateAsync(req.body);
-    return next();
+     next();
     
   } catch (error) {
+    console.log(error)
     return res.status(400).json({
       mensagem: error.message
     })
