@@ -10,6 +10,7 @@ const { listarCategoria } = require("../controllers/categoria-controller");
 const controllerProduto = require("../controllers/produto-controllers");
 const schemaEditProduct = require("../utils/validarEditarProduto");
 const clienteSchema = require("../utils/validarCliente");
+const middlewareProduto = require("../middlewares/produto-middleware");
 
 const rotas = express.Router();
 
@@ -29,6 +30,23 @@ rotas.post(
 rotas.get("/categorias", listarCategoria);
 
 rotas.use(middlewaresUsuario.validarToken); // route middleware //colocar todos end points que precisam de token abaixo dessa funçao.
+
+rotas.post(
+  "/produto",
+  middlewaresUsuario.verificarProdutos(schemaCategoria),
+  middlewareProduto.verificarCategoriaExiste,
+  controllerProduto.cadastrarProduto
+);
+
+rotas.put(
+  "/produto/:id",
+  middlewaresUsuario.validarCampos(schemaEditProduct),
+  middlewareProduto.verificarProdutoExiste,
+  middlewareProduto.verificarCategoriaExiste,
+  controllerProduto.editarProduto
+);
+
+rotas.get("/produto/:id", controllerProduto.detalharProduto);
 
 rotas.put(
   "/usuario",
@@ -53,8 +71,7 @@ rotas.put(
   middlewareCliente.verificarEmailCliente,
   middlewareCliente.verificarCPFCliente,
   controllerCliente.editarCliente
-  
-)
+);
 
 rotas.post(
   "/cliente",
@@ -62,20 +79,8 @@ rotas.post(
   middlewareCliente.verificarEmailCliente,
   middlewareCliente.verificarCPFCliente,
   controllerCliente.cadastrarCliente
-  )
-
-rotas.post(
-  "/produto",
-  middlewaresUsuario.verificarProdutos(schemaCategoria),
-  controllerProduto.cadastrarProduto
 );
+
 rotas.get("/usuario", controllersUsuario.detalharUsuario);
-
-rotas.put(
-  "/produto/:id",
-  middlewaresUsuario.validarCampos(schemaEditProduct),
-  controllerProduto.editarProduto
-);
-rotas.get("/produto/:id", controllerProduto.detalharProduto);
 
 module.exports = rotas;
