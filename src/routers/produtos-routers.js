@@ -4,13 +4,7 @@ const controllerProduto = require("../controllers/produto-controllers");
 const schemaCategoria = require("../utils/validarProduto");
 const schemaEditProduct = require("../utils/validarEditarProduto");
 const middlewareProduto = require("../middlewares/produto-middleware");
-const { listarCategoria } = require("../controllers/categoria-controller");
-
 const produtosRotas = express.Router();
-
-produtosRotas.get("/categorias", listarCategoria);
-
-produtosRotas.use(middlewaresUsuario.validarToken); // route middleware //colocar todos end points que precisam de token abaixo dessa funçao.
 
 produtosRotas.post(
   "/produto",

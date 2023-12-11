@@ -6,8 +6,6 @@ const clienteSchema = require("../utils/validarCliente");
 
 const clientesRotas = express.Router();
 
-clientesRotas.use(middlewaresUsuario.validarToken); // route middleware //colocar todos end points que precisam de token abaixo dessa funçao.
-
 clientesRotas.get("/cliente", controllerCliente.listarClientes);
 
 clientesRotas.get(
