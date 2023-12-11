@@ -18,23 +18,29 @@ const clienteSchema = joi.object({
     "string.min": "o cpf deve conter 11 digitos",
     "string.max": "o cpf deve conter 11 digitos",
   }),
-  cep: joi.string().messages({
+  cep: joi.string().min(8).max(8).messages({
     "string.empty": "Se o campo 'cep' for selecionado ele deve ser preenchido",
+    "string.min": "o campo cep deve conter 8 digitos",
+    "string.max": "o campo cep deve conter 8 digitos",
   }),
   rua: joi.string().messages({
     "string.empty": "Se o campo 'rua' for selecionado ele deve ser preenchido",
   }),
   numero: joi.string().messages({
-    "string.empty": "Se o campo 'numero' for selecionado ele deve ser preenchido",
+    "string.empty":
+      "Se o campo 'numero' for selecionado ele deve ser preenchido",
   }),
   bairro: joi.string().messages({
-    "string.empty": "Se o campo 'bairro' for selecionado ele deve ser preenchido",
+    "string.empty":
+      "Se o campo 'bairro' for selecionado ele deve ser preenchido",
   }),
   cidade: joi.string().messages({
-    "string.empty": "Se o campo 'cidade' for selecionado ele deve ser preenchido",
+    "string.empty":
+      "Se o campo 'cidade' for selecionado ele deve ser preenchido",
   }),
   estado: joi.string().messages({
-    "string.empty": "Se o campo 'estado' for selecionado ele deve ser preenchido",
+    "string.empty":
+      "Se o campo 'estado' for selecionado ele deve ser preenchido",
   }),
 });
 
