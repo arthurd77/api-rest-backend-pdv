@@ -49,7 +49,7 @@ const verificarEmailUsuario = async (req, res, next) => {
     if (
       req.method === "PUT" &&
       emailExistente &&
-      emailExistente.id !== req.usuarioId
+      emailExistente.id !== Number(req.usuarioId)
     ) {
       return res.status(403).json({
         mensagem: "Você não pode realizar essa ação",
