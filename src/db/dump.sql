@@ -28,5 +28,27 @@ INSERT INTO categorias (descricao) VALUES ('Moda');
 INSERT INTO categorias (descricao) VALUES ('Bebê'); 
 INSERT INTO categorias (descricao) VALUES ('Games');
 
+create table produtos (
+id serial primary key,
+ descricao varchar(200),
+  quantidade_estoque integer,
+  valor integer,
+  categoria_id integer,
+  foreign key (categoria_id) references categorias(id)
+);
+
+create table clientes(
+id serial primary key,
+  nome text not null,
+  email  varchar(200) not null unique,
+  cpf varchar(11) not null unique,
+  cep varchar(8),
+  rua varchar(100),
+  numero varchar(10),
+  bairro varchar(100),
+  cidade varchar(100),
+  estado varchar(50)
+);
+
 
 END;
