@@ -65,24 +65,29 @@ const verificarEmailUsuario = async (req, res, next) => {
 
 const verificarLogin = async (req, res, next) => {
   const { email, senha } = req.body;
+  try {
+    const usuario = await knex("usuarios")
+      .select("*")
+      .from("usuarios")
+      .where("email", "=", email)
+      .first();
+    if (!usuario) {
+      return res.status(401).json({ mensagem: "E-mail ou senha invalido." });
+    }
 
-  const usuario = await knex("usuarios")
-    .select("*")
-    .from("usuarios")
-    .where("email", "=", email)
-    .first();
-  if (!usuario) {
-    return res.status(401).json({ mensagem: "E-mail ou senha invalido." });
+    const confirmarSenha = await bcrypt.compare(senha, usuario.senha);
+    if (!confirmarSenha) {
+      return res.status(401).json({ mensagem: "E-mail ou senha invalido!" });
+    }
+
+    req.usuario = usuario;
+
+    return next();
+  } catch (Erro) {
+    return res.status(500).json({
+      mensagem: "Erro interno do Servidor",
+    });
   }
-
-  const confirmarSenha = await bcrypt.compare(senha, usuario.senha);
-  if (!confirmarSenha) {
-    return res.status(401).json({ mensagem: "E-mail ou senha invalido!" });
-  }
-
-  req.usuario = usuario;
-
-  return next();
 };
 
 module.exports = {
