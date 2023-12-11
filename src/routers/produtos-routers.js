@@ -7,6 +7,8 @@ const middlewareProduto = require("../middlewares/produto-middleware");
 
 const produtosRotas = express.Router();
 
+produtosRotas.get("/categorias", listarCategoria);
+
 produtosRotas.use(middlewaresUsuario.validarToken); // route middleware //colocar todos end points que precisam de token abaixo dessa funçao.
 
 produtosRotas.post(
