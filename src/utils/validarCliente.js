@@ -18,12 +18,24 @@ const clienteSchema = joi.object({
     "string.min": "o cpf deve conter 11 digitos",
     "string.max": "o cpf deve conter 11 digitos",
   }),
-  cep: joi.string(),
-  rua: joi.string(),
-  numero: joi.string(),
-  bairro: joi.string(),
-  cidade: joi.string(),
-  estado: joi.string(),
+  cep: joi.string().messages({
+    "string.empty": "Se o campo 'cep' for selecionado ele deve ser preenchido",
+  }),
+  rua: joi.string().messages({
+    "string.empty": "Se o campo 'rua' for selecionado ele deve ser preenchido",
+  }),
+  numero: joi.string().messages({
+    "string.empty": "Se o campo 'numero' for selecionado ele deve ser preenchido",
+  }),
+  bairro: joi.string().messages({
+    "string.empty": "Se o campo 'bairro' for selecionado ele deve ser preenchido",
+  }),
+  cidade: joi.string().messages({
+    "string.empty": "Se o campo 'cidade' for selecionado ele deve ser preenchido",
+  }),
+  estado: joi.string().messages({
+    "string.empty": "Se o campo 'estado' for selecionado ele deve ser preenchido",
+  }),
 });
 
 module.exports = clienteSchema;
