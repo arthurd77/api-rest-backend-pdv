@@ -12,17 +12,31 @@ const clienteSchema = joi.object({
     "string.empty": "O campo email não pode estar vázio",
   }),
 
-  cpf: joi.string().min(11).max(11).required().messages({
-    "any.required": "O campo cpf é obrigatório.",
-    "string.empty": "O campo cpf não pode estar vázio",
-    "string.min": "o cpf deve conter 11 digitos",
-    "string.max": "o cpf deve conter 11 digitos",
-  }),
-  cep: joi.string().min(8).max(8).messages({
-    "string.empty": "Se o campo 'cep' for selecionado ele deve ser preenchido",
-    "string.min": "o campo cep deve conter 8 digitos",
-    "string.max": "o campo cep deve conter 8 digitos",
-  }),
+  cpf: joi
+    .string()
+    .min(11)
+    .max(11)
+    .pattern(/^[0-9]+$/)
+    .required()
+    .messages({
+      "any.required": "O campo cpf é obrigatório.",
+      "string.empty": "O campo cpf não pode estar vázio",
+      "string.min": "o cpf deve conter 11 digitos",
+      "string.max": "o cpf deve conter 11 digitos",
+      "string.pattern.base": "o campo cpf deve conter apenas numeros",
+    }),
+  cep: joi
+    .string()
+    .min(8)
+    .max(8)
+    .pattern(/^[0-9]+$/)
+    .messages({
+      "string.empty":
+        "Se o campo 'cep' for selecionado ele deve ser preenchido",
+      "string.min": "o campo cep deve conter 8 digitos",
+      "string.max": "o campo cep deve conter 8 digitos",
+      "string.pattern.base": "o campo cep deve conter apenas numeros",
+    }),
   rua: joi.string().messages({
     "string.empty": "Se o campo 'rua' for selecionado ele deve ser preenchido",
   }),
