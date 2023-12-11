@@ -48,8 +48,8 @@ const verificarEmailCliente = async (req, res, next) => {
       emailExistente &&
       emailExistente.id !== Number(clienteID)
     ) {
-      return res.status(401).json({
-        mensagem: "E-mail já está sendo utilizado.2",
+      return res.status(403).json({
+        mensagem: "E-mail já está sendo utilizado",
       });
     }
     return next();
@@ -80,7 +80,7 @@ const verificarCPFCliente = async (req, res, next) => {
       cpfExistente &&
       cpfExistente.id !== Number(clienteID)
     ) {
-      return res.status(401).json({
+      return res.status(403).json({
         mensagem: "CPF já está sendo utilizado.",
       });
     }

@@ -20,7 +20,7 @@ const validarToken = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return res.status(400).json({ mensagem: "token inválido" });
+    return res.status(401).json({ mensagem: "token inválido" });
   }
 };
 
