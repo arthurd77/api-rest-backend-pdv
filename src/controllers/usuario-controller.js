@@ -24,22 +24,8 @@ const cadastrarUsuario = async (req, res) => {
 };
 
 const loginDoUsuario = async (req, res) => {
-  const { email, senha } = req.body;
   try {
-    const usuarios = await knex("usuarios")
-      .select("*")
-      .from("usuarios")
-      .where("email", "=", email);
-    if (usuarios.length < 1) {
-      return res.status(401).json({ mensagem: "E-mail ou senha invalido." });
-    }
-
-    const usuario = usuarios[0];
-
-    const confirmarSenha = await bcrypt.compare(senha, usuario.senha);
-    if (!confirmarSenha) {
-      return res.status(401).json({ mensagem: "E-mail ou senha invalida! 2" });
-    }
+    const usuario = req.usuario;
 
     const Token = jwt.sign({ id: usuario.id }, senhaJwt, {
       expiresIn: "10h",

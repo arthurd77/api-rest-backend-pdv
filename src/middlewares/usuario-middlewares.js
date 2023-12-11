@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const senhaJwt = require("../../.private/.key");
 const knex = require("../db/conexao");
+const bcrypt = require("bcrypt");
 
 const validarToken = async (req, res, next) => {
   const { authorization } = req.headers;
@@ -62,8 +63,31 @@ const verificarEmailUsuario = async (req, res, next) => {
   }
 };
 
+const verificarLogin = async (req, res, next) => {
+  const { email, senha } = req.body;
+
+  const usuario = await knex("usuarios")
+    .select("*")
+    .from("usuarios")
+    .where("email", "=", email)
+    .first();
+  if (!usuario) {
+    return res.status(401).json({ mensagem: "E-mail ou senha invalido." });
+  }
+
+  const confirmarSenha = await bcrypt.compare(senha, usuario.senha);
+  if (!confirmarSenha) {
+    return res.status(401).json({ mensagem: "E-mail ou senha invalido!" });
+  }
+
+  req.usuario = usuario;
+
+  return next();
+};
+
 module.exports = {
   validarToken,
   validarCampos,
   verificarEmailUsuario,
+  verificarLogin,
 };

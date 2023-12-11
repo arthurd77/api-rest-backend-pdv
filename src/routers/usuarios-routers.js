@@ -15,6 +15,7 @@ usuariosRotas.post(
 usuariosRotas.post(
   "/login",
   middlewaresUsuario.validarCampos(validarLogin),
+  middlewaresUsuario.verificarLogin,
   controllersUsuario.loginDoUsuario
 );
 
