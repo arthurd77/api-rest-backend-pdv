@@ -1,5 +1,5 @@
 const express = require("express");
-const middlewaresUsuario = require("../middlewares/middlewares");
+const middlewaresUsuario = require("../middlewares/usuario-middlewares");
 const controllerProduto = require("../controllers/produto-controllers");
 const schemaCategoria = require("../utils/validarProduto");
 const schemaEditProduct = require("../utils/validarEditarProduto");
@@ -28,6 +28,10 @@ produtosRotas.get("/produto", controllerProduto.listaProduto);
 
 produtosRotas.get("/produto/:id", controllerProduto.detalharProduto);
 
-produtosRotas.delete("/produto/:id", controllerProduto.deletaProduto);
+produtosRotas.delete(
+  "/produto/:id",
+  middlewareProduto.verificarProdutoExiste,
+  controllerProduto.deletaProduto
+);
 
 module.exports = produtosRotas;

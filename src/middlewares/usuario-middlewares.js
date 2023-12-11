@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const senhaJwt = require("../../.private/.key");
 const knex = require("../db/conexao");
-const e = require("express");
 
 const validarToken = async (req, res, next) => {
   const { authorization } = req.headers;

@@ -1,5 +1,5 @@
 const express = require("express");
-const middlewaresUsuario = require("../middlewares/middlewares");
+const middlewaresUsuario = require("../middlewares/usuario-middlewares");
 const controllersUsuario = require("../controllers/usuario-controller");
 const usuariosRotas = express.Router();
 const schemaUsuario = require("../utils/validarCampos");

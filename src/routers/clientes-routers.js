@@ -1,5 +1,5 @@
 const express = require("express");
-const middlewaresUsuario = require("../middlewares/middlewares");
+const middlewaresUsuario = require("../middlewares/usuario-middlewares");
 const middlewareCliente = require("../middlewares/cliente-middleware");
 const controllerCliente = require("../controllers/cliente-controller");
 const clienteSchema = require("../utils/validarCliente");
@@ -19,6 +19,7 @@ clientesRotas.get(
 clientesRotas.put(
   "/cliente/:id",
   middlewareCliente.validarCliente(clienteSchema),
+  middlewareCliente.clienteExiste,
   middlewareCliente.verificarEmailCliente,
   middlewareCliente.verificarCPFCliente,
   controllerCliente.editarCliente
