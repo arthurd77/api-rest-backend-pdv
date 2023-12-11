@@ -11,6 +11,10 @@ const controllerProduto = require("../controllers/produto-controllers");
 const schemaEditProduct = require("../utils/validarEditarProduto");
 const clienteSchema = require("../utils/validarCliente");
 const middlewareProduto = require("../middlewares/produto-middleware");
+const {
+  listaProduto,
+  deletaProduto,
+} = require("../controllers/produto-controller");
 
 const rotas = express.Router();
 
@@ -82,5 +86,9 @@ rotas.post(
 );
 
 rotas.get("/usuario", controllersUsuario.detalharUsuario);
+
+rotas.get("/listaProduto", listaProduto);
+
+rotas.delete("/deletaItem/:id", deletaProduto);
 
 module.exports = rotas;

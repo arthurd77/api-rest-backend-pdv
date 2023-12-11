@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(routers);
 
 const port = process.env.PORT
-
+console.log(port)
 app.listen(port, () => {
     console.log("Servidor Iniciado")
 } );
