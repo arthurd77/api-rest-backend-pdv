@@ -21,7 +21,7 @@ const cadastrarProduto = async (req, res) => {
 
 const editarProduto = async (req, res) => {
   const { id: productID } = req.params;
-  const { categoria_id } = req.body;
+  const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
 
   try {
     await knex("produtos")
@@ -30,6 +30,7 @@ const editarProduto = async (req, res) => {
 
     return res.status(204).json();
   } catch (Error) {
+    console.error(Error);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };
