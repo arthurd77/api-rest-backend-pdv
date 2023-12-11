@@ -30,7 +30,6 @@ const editarProduto = async (req, res) => {
 
     return res.status(204).json();
   } catch (Error) {
-    console.error(Error);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };

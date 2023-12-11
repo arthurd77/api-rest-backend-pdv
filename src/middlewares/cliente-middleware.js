@@ -1,6 +1,5 @@
 const knex = require("../db/conexao");
 
-
 const clienteExiste = async (req, res, next) => {
   const clienteId = req.params.id;
 
@@ -18,19 +17,16 @@ const clienteExiste = async (req, res, next) => {
   return next();
 };
 
-
 const validarCliente = (schema) => async (req, res, next) => {
   try {
     await schema.validateAsync(req.body);
-     next();
-    
+    next();
   } catch (error) {
-    console.log(error)
     return res.status(400).json({
-      mensagem: error.message
-    })
+      mensagem: error.message,
+    });
   }
-}
+};
 
 const verificarEmailCliente = async (req, res, next) => {
   try {
@@ -74,11 +70,9 @@ const verificarCPFCliente = async (req, res, next) => {
   }
 };
 
-
-
 module.exports = {
   clienteExiste,
   validarCliente,
   verificarEmailCliente,
-  verificarCPFCliente
+  verificarCPFCliente,
 };
