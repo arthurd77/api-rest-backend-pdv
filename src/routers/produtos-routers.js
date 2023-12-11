@@ -4,6 +4,7 @@ const controllerProduto = require("../controllers/produto-controllers");
 const schemaCategoria = require("../utils/validarProduto");
 const schemaEditProduct = require("../utils/validarEditarProduto");
 const middlewareProduto = require("../middlewares/produto-middleware");
+const { listarCategoria } = require("../controllers/categoria-controller");
 
 const produtosRotas = express.Router();
 
