@@ -62,9 +62,7 @@ const deletaProduto = async (req, res) => {
     const { id } = req.params;
 
     const deleta = await knex("produtos").where("id", "=", id).del();
-    if (deleta == 0) {
-      return res.status(200).json({ Mensagem: "Produto Não encontrado" });
-    }
+
 
     return res.status(204).json({});
   } catch (error) {
