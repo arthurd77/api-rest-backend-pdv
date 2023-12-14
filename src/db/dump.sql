@@ -50,5 +50,22 @@ id serial primary key,
   estado varchar(50)
 );
 
+create table pedidos(
+	id serial primary key,
+  cliente_id integer not null references clientes(id),
+  observacao text,
+  valor_total integer
+);
+
+create table pedido_produtos(
+	id serial primary key,
+  pedido_id integer not null references pedidos(id),
+  produto_id integer not null references produtos(id),
+  quantidade_produto integer,
+  valor_produto integer
+);
+
+alter table produtos add produto_imagem bytea;
+
 
 END;
