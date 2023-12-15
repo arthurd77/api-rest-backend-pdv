@@ -26,7 +26,7 @@ const verificarProdutoExiste = async (req, res, next) => {
 
 const verificarProdutoVinculado = async (req, res, next) => {
   const { id: productID } = req.params;
-  const produtoPedidos = await knex("pedidos_produtos")
+  const produtoPedidos = await knex("pedido_produtos")
     .select("*")
     .where("produto_id", productID)
     .first();
