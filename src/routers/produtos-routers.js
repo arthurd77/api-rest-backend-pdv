@@ -28,6 +28,7 @@ produtosRotas.get("/produto/:id", controllerProduto.detalharProduto);
 produtosRotas.delete(
   "/produto/:id",
   middlewareProduto.verificarProdutoExiste,
+  middlewareProduto.verificarProdutoVinculado,
   controllerProduto.deletaProduto
 );
 
