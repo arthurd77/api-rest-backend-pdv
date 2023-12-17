@@ -5,7 +5,7 @@ const middllewarePedido = require("../middlewares/pedido-middleware");
 const cadastrarPedido = require("../controllers/pedido-controller");
 
 
-const pedidosRotas = express();
+const pedidosRotas = express.Router();
 
 pedidosRotas.post(
     '/pedido',
