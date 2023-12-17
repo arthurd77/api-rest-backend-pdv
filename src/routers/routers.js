@@ -10,9 +10,10 @@ const rotas = express.Router();
 
 rotas.get("/categorias", listarCategoria);
 
-rotas.use(pedidosRotas);
+
 rotas.use(rotasUsuario);
 rotas.use(rotasClientes);
 rotas.use(rotasProdutos);
+rotas.use(pedidosRotas);
 
 module.exports = rotas;
