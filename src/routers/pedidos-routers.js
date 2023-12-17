@@ -11,9 +11,8 @@ pedidosRotas.post(
     '/pedido',
     middllewarePedido.validarPedido(schemaPedidos),
     middllewarePedido.pedidoExiste,
-    // middllewarePedido.validarEstoque,
-    cadastrarPedido    
-    )
+    cadastrarPedido
+)
 
 module.exports = pedidosRotas
 
