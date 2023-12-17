@@ -3,7 +3,6 @@ const express = require("express");
 const schemaPedidos = require("../utils/validarPedidos");
 const middllewarePedido = require("../middlewares/pedido-middleware");
 const cadastrarPedido = require("../controllers/pedido-controller");
-const middlewareCliente = require("../middlewares/cliente-middleware");
 
 
 const pedidosRotas = express();

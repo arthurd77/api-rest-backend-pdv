@@ -12,6 +12,10 @@ const cadastrarPedido = async (req, res) => {
     await Promise.all(pedido_produtos.map(async (produto) => {
       const teste = await knex('produtos').select('quantidade_estoque').where('id', produto.produto_id).first();
 
+      if(produto.quantidade_produto === 0){
+        return res.status(400).json({ mensagem: 'A quantidade de produtos de cada pedido deve ser maior que zero.' })
+      }
+
       if (produto.quantidade_produto <= teste.quantidade_estoque) {
         return teste;
       } else {
