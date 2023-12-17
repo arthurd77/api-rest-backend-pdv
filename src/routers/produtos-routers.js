@@ -5,9 +5,11 @@ const schemaCategoria = require("../utils/validarProduto");
 const schemaEditProduct = require("../utils/validarEditarProduto");
 const middlewareProduto = require("../middlewares/produto-middleware");
 const produtosRotas = express.Router();
+const { uploadFile } = require("../storege");
+const multer = require("../middlewares/multer-middleware");
 
 produtosRotas.post(
-  "/produto",
+  "/produto", multer.single('imagem'),
   middlewaresUsuario.validarCampos(schemaCategoria),
   middlewareProduto.verificarCategoriaExiste,
   controllerProduto.cadastrarProduto

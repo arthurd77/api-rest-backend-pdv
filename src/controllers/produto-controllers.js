@@ -1,15 +1,28 @@
 const knex = require("../db/conexao");
+const { uploadFile } = require("../storege");
+
 
 const cadastrarProduto = async (req, res) => {
-  const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+  const { descricao, quantidade_estoque, valor, categoria_id, produto_imagem } = req.body;
+  const { file } = req
 
   try {
+
+    const arquivo = await uploadFile(
+      `imagens/${file.originalname}`,
+      file.buffer,
+      file.mimetype
+    )
+    if (!arquivo) {
+      return res.status(401).json({ mensagem: "Erro ao enviar arquivo" })
+    }
     const cadastrar = await knex("produtos")
       .insert({
         descricao,
         quantidade_estoque,
         valor,
         categoria_id,
+        produto_imagem: arquivo,
       })
       .returning("*");
 
@@ -76,4 +89,5 @@ module.exports = {
   detalharProduto,
   listaProduto,
   deletaProduto,
+
 };
