@@ -1,4 +1,5 @@
 const knex = require("../db/conexao");
+const nodemailer = require('nodemailer')
 
 const cadastrarPedido = async (req, res) => {
   const { observacao, cliente_id, pedido_produtos } = req.body;
@@ -7,6 +8,16 @@ const cadastrarPedido = async (req, res) => {
   let total = 0;
   const valor_produto = [];
   let valor_unitario = [];
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.MAIL_HOST,
+    port: process.env.MAIL_PORT,
+    secure: false,
+    auth:{
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
+    }
+  })
 
   try {
     await Promise.all(pedido_produtos.map(async (produto) => {
@@ -50,6 +61,21 @@ const cadastrarPedido = async (req, res) => {
         })
       }
 
+      const html = `
+        <!doctype html>
+        <html>
+          <h1>Olá!</h1>
+          <h2>Seu pedido foi efetuado com sucesso! =)</h2>
+        </html>
+        `
+      const emailCliente = await knex('clientes').select('email').where('id', cliente_id).first()
+      transporter.sendMail({
+            html: html,
+            to: emailCliente.email,
+            from: process.env.MAIL_FROM
+        })
+    
+    
       return res.status(201).json();
     }
 
