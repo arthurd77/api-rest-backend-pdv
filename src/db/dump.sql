@@ -67,5 +67,19 @@ create table pedido_produtos(
 
 alter table produtos add produto_imagem bytea;
 
+ALTER TABLE produtos
+ADD COLUMN produto_imagem_temp VARCHAR(500)
+
+UPDATE produtos
+SET produto_imagem_temp = convert_from(produto_imagem, 'UTF8')
+
+
+ALTER TABLE produtos
+DROP COLUMN produto_imagem;
+
+ALTER TABLE produtos
+RENAME COLUMN produto_imagem_temp TO produto_imagem;
+
+
 
 END;

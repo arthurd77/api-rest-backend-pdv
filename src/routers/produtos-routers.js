@@ -9,15 +9,16 @@ const { uploadFile } = require("../storege");
 const multer = require("../middlewares/multer-middleware");
 
 produtosRotas.post(
-  "/produto", multer.single('imagem'),
+  "/produto", multer.single('produto_imagem'),
   middlewaresUsuario.validarCampos(schemaCategoria),
   middlewareProduto.verificarCategoriaExiste,
+
   controllerProduto.cadastrarProduto
 );
 
 produtosRotas.put(
-  "/produto/:id",
-  middlewaresUsuario.validarCampos(schemaEditProduct),
+  "/produto/:id", multer.single('produto_imagem'),
+  middlewaresUsuario.validarCampos(schemaCategoria),
   middlewareProduto.verificarProdutoExiste,
   middlewareProduto.verificarCategoriaExiste,
   controllerProduto.editarProduto

@@ -20,8 +20,9 @@ const uploadFile = async (path, buffer, mimetype) => {
         }).promise()
 
         return {
-            url: arquivo.Location
+            url: arquivo.Location,
         }
+
     } catch (error) {
         return error
     }
