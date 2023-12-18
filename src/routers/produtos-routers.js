@@ -5,17 +5,20 @@ const schemaCategoria = require("../utils/validarProduto");
 const schemaEditProduct = require("../utils/validarEditarProduto");
 const middlewareProduto = require("../middlewares/produto-middleware");
 const produtosRotas = express.Router();
+const { uploadFile } = require("../storege");
+const multer = require("../middlewares/multer-middleware");
 
 produtosRotas.post(
-  "/produto",
+  "/produto", multer.single('produto_imagem'),
   middlewaresUsuario.validarCampos(schemaCategoria),
   middlewareProduto.verificarCategoriaExiste,
+
   controllerProduto.cadastrarProduto
 );
 
 produtosRotas.put(
-  "/produto/:id",
-  middlewaresUsuario.validarCampos(schemaEditProduct),
+  "/produto/:id", multer.single('produto_imagem'),
+  middlewaresUsuario.validarCampos(schemaCategoria),
   middlewareProduto.verificarProdutoExiste,
   middlewareProduto.verificarCategoriaExiste,
   controllerProduto.editarProduto

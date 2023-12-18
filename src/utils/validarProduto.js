@@ -17,7 +17,13 @@ const schemaCategoria = joi.object({
     categoria_id: joi.number().required().messages({
         "any.required": "O campo categoria_id é obrigatório.",
         "number.base": "O campo categoria_id não pode estar vázio",
+    }),
+    produto_imagem: joi.string().regex(/.(jpg|jpeg|png)$/i).messages({
+        "string.empty": "Se o campo produto_imagem for selecionado ele deve ser preenchido",
+        "string.pattern.base": "O arquivo precisa ser uma imagem (jpg, jpeg ou png)"
+
     })
+
 })
 
 module.exports = schemaCategoria
