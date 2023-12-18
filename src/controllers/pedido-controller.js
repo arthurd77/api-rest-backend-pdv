@@ -71,6 +71,7 @@ const cadastrarPedido = async (req, res) => {
       const emailCliente = await knex('clientes').select('email').where('id', cliente_id).first()
       transporter.sendMail({
             html: html,
+            subject: 'Pedido Concluído!',
             to: emailCliente.email,
             from: process.env.MAIL_FROM
         })
