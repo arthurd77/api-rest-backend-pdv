@@ -21,6 +21,7 @@ const verificarProdutoExiste = async (req, res, next) => {
   if (!consultaProductID) {
     return res.status(404).json({ mensagem: "produto não encontrado" });
   }
+  req.product = consultaProductID;
   next();
 };
 
