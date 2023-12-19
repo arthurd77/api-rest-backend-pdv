@@ -21,10 +21,29 @@ const verificarProdutoExiste = async (req, res, next) => {
   if (!consultaProductID) {
     return res.status(404).json({ mensagem: "produto não encontrado" });
   }
+  req.product = consultaProductID;
   next();
+};
+
+const verificarProdutoVinculado = async (req, res, next) => {
+  const { id: productID } = req.params;
+  const produtoPedidos = await knex("pedido_produtos")
+    .select("*")
+    .where("produto_id", productID)
+    .first();
+
+  if (produtoPedidos) {
+    return res.status(403).json({
+      mensagem:
+        "Não é possível excluir o produto pois existem pedidos vinculados",
+    });
+  }
+
+  return next();
 };
 
 module.exports = {
   verificarCategoriaExiste,
   verificarProdutoExiste,
+  verificarProdutoVinculado,
 };

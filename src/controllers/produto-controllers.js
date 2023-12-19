@@ -1,17 +1,59 @@
 const knex = require("../db/conexao");
+const { uploadFile, deleteFile } = require("../storege");
 
 const cadastrarProduto = async (req, res) => {
-  const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+  const { descricao, quantidade_estoque, valor, categoria_id, produto_imagem } =
+    req.body;
+  const { file } = req;
 
   try {
+    if (file) {
+      const cadastrarImagem = await knex("produtos")
+        .insert({
+          descricao,
+          quantidade_estoque,
+          valor,
+          categoria_id,
+        })
+        .returning("id");
+      const arquivoUrl = await uploadFile(
+        `imagens/${cadastrarImagem[0].id}/${file.originalname.replace(
+          /\s/,
+          "-"
+        )}`,
+        file.buffer,
+        file.mimetype
+      );
+      const produto = await knex("produtos")
+        .update({
+          produto_imagem: arquivoUrl.url,
+        })
+        .where("id", cadastrarImagem[0].id)
+        .returning([
+          "descricao",
+          "quantidade_estoque",
+          "valor",
+          "categoria_id",
+        ]);
+      produto[0].produto_imagem = arquivoUrl.url;
+      return res.status(201).json(produto);
+    }
+
     const cadastrar = await knex("produtos")
       .insert({
         descricao,
         quantidade_estoque,
         valor,
         categoria_id,
+        produto_imagem,
       })
-      .returning("*");
+      .returning([
+        "descricao",
+        "quantidade_estoque",
+        "valor",
+        "categoria_id",
+        "produto_imagem",
+      ]);
 
     return res.status(201).json(cadastrar);
   } catch (error) {
@@ -21,14 +63,42 @@ const cadastrarProduto = async (req, res) => {
 
 const editarProduto = async (req, res) => {
   const { id: productID } = req.params;
-  const { descricao, quantidade_estoque, valor, categoria_id } = req.body;
+  const { descricao, quantidade_estoque, valor, categoria_id, produto_imagem } =
+    req.body;
+  const { file } = req;
 
   try {
-    await knex("produtos")
-      .update({ descricao, quantidade_estoque, valor, categoria_id })
+    if (file) {
+      const arquivoUrl = await uploadFile(
+        `imagens/${productID}/${file.originalname.replace(/\s/, "-")}`,
+        file.buffer,
+        file.mimetype
+      );
+
+      const atualizarImagem = await knex("produtos")
+        .update({
+          descricao,
+          quantidade_estoque,
+          valor,
+          categoria_id,
+          produto_imagem: arquivoUrl.url,
+        })
+        .where("id", productID);
+
+      return res.status(204).json(atualizarImagem);
+    }
+    const imagem = null;
+    const atualizar = await knex("produtos")
+      .update({
+        descricao,
+        quantidade_estoque,
+        valor,
+        categoria_id,
+        produto_imagem: imagem,
+      })
       .where("id", productID);
 
-    return res.status(204).json();
+    return res.status(204).json(atualizar);
   } catch (Error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
@@ -60,12 +130,15 @@ const listaProduto = async (req, res) => {
 const deletaProduto = async (req, res) => {
   try {
     const { id } = req.params;
-
+    const keyImagem = req.product.produto_imagem.replace(
+      `https://${process.env.ENDPOINT_S3}/${process.env.BACKBLAZE_BUCKET}/`,
+      ""
+    );
     const deleta = await knex("produtos").where("id", "=", id).del();
-
-
-    return res.status(204).json({});
+    await deleteFile(keyImagem);
+    return res.status(204).json({ deleteFile });
   } catch (error) {
+    console.error(deleteFile);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };
