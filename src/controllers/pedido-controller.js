@@ -118,6 +118,7 @@ const cadastrarPedido = async (req, res) => {
 const listarPedidos = async (req, res) => {
   const { cliente_id } = req.query;
   let pedidos;
+  let listaPedidos = [];
   if (cliente_id) {
     pedidos = await knex("pedidos").select("*").where("cliente_id", cliente_id);
   } else {
@@ -125,12 +126,12 @@ const listarPedidos = async (req, res) => {
   }
 
   for (const pedido of pedidos) {
-    pedido.pedido_produtos = await knex("pedido_produtos")
+    let pedido_produtos = await knex("pedido_produtos")
       .select("*")
       .where("pedido_id", pedido.id);
+    listaPedidos.push({ pedido: pedido, pedido_produtos: pedido_produtos });
   }
-  console.log;
-  return res.status(200).json(pedidos);
+  return res.status(200).json(listaPedidos);
 };
 
 module.exports = { cadastrarPedido, listarPedidos };
