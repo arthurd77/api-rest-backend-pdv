@@ -2,18 +2,17 @@ const express = require("express");
 
 const schemaPedidos = require("../utils/validarPedidos");
 const middllewarePedido = require("../middlewares/pedido-middleware");
-const cadastrarPedido = require("../controllers/pedido-controller");
-
+const controllerPedido = require("../controllers/pedido-controller");
 
 const pedidosRotas = express.Router();
 
 pedidosRotas.post(
-    '/pedido',
-    middllewarePedido.validarPedido(schemaPedidos),
-    middllewarePedido.pedidoExiste,
-    middllewarePedido.clienteExiste,
-    cadastrarPedido
-)
+  "/pedido",
+  middllewarePedido.validarPedido(schemaPedidos),
+  middllewarePedido.pedidoExiste,
+  middllewarePedido.clienteExiste,
+  controllerPedido.cadastrarPedido
+);
 
-module.exports = pedidosRotas
-
+pedidosRotas.get("/pedido", controllerPedido.listarPedidos);
+module.exports = pedidosRotas;
