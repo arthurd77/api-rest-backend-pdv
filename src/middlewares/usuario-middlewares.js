@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const senhaJwt = require("../../.private/.key");
+const senhaJwt = process.env.JWT_PASS;
 const knex = require("../db/conexao");
 const bcrypt = require("bcrypt");
 
