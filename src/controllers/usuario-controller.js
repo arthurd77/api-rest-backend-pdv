@@ -1,7 +1,7 @@
 const knex = require("../db/conexao");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const senhaJwt = require("../../.private/.key");
+const senhaJwt = process.env.JWT_PASS;
 
 const cadastrarUsuario = async (req, res) => {
   const { nome, email, senha } = req.body;
@@ -27,12 +27,12 @@ const loginDoUsuario = async (req, res) => {
   try {
     const usuario = req.usuario;
 
-    const Token = jwt.sign({ id: usuario.id }, senhaJwt, {
+    const token = jwt.sign({ id: usuario.id }, senhaJwt, {
       expiresIn: "10h",
     });
     const { senha: _, ...usuarioLogado } = usuario;
 
-    return res.json({ Usuario: usuarioLogado, Token });
+    return res.json({ usuario: usuarioLogado, token });
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
