@@ -76,13 +76,7 @@ const editarProduto = async (req, res) => {
           categoria_id,
           produto_imagem: arquivoUrl.url,
         })
-        .where("id", productID).returning([
-          "descricao",
-          "quantidade_estoque",
-          "valor",
-          "categoria_id",
-          "produto_imagem",
-        ]);
+        .where("id", productID).returning("*");
 
       const atualizarImagemObj = atualizarImagem[0]
 
@@ -97,13 +91,7 @@ const editarProduto = async (req, res) => {
         categoria_id,
         produto_imagem: imagem,
       })
-      .where("id", productID).returning([
-        "descricao",
-        "quantidade_estoque",
-        "valor",
-        "categoria_id",
-        "produto_imagem",
-      ]);
+      .where("id", productID).returning("*");
 
     const atualizarObj = atualizar[0]
     return res.status(200).json(atualizarObj);
