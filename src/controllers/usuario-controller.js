@@ -17,7 +17,7 @@ const cadastrarUsuario = async (req, res) => {
         senha: criptografarSenha,
       });
 
-    return res.status(201).json(usuario);
+    return res.status(201).json(usuario[0]);
   } catch (error) {
     return res.status(500).json({ mensagem: "erro interno do servidor!" });
   }

@@ -32,7 +32,7 @@ const cadastrarProduto = async (req, res) => {
         .returning("*");
       produto[0].produto_imagem = arquivoUrl.url;
 
-      const produtoObj = produto[0]
+      const produtoObj = produto[0];
       return res.status(201).json(produtoObj);
     }
 
@@ -46,7 +46,7 @@ const cadastrarProduto = async (req, res) => {
       })
       .returning("*");
 
-    const cadastrarObj = cadastrar[0]
+    const cadastrarObj = cadastrar[0];
 
     return res.status(201).json(cadastrarObj);
   } catch (error) {
@@ -76,9 +76,10 @@ const editarProduto = async (req, res) => {
           categoria_id,
           produto_imagem: arquivoUrl.url,
         })
-        .where("id", productID).returning("*");
+        .where("id", productID)
+        .returning("*");
 
-      const atualizarImagemObj = atualizarImagem[0]
+      const atualizarImagemObj = atualizarImagem[0];
 
       return res.status(200).json(atualizarImagemObj);
     }
@@ -91,9 +92,10 @@ const editarProduto = async (req, res) => {
         categoria_id,
         produto_imagem: imagem,
       })
-      .where("id", productID).returning("*");
+      .where("id", productID)
+      .returning("*");
 
-    const atualizarObj = atualizar[0]
+    const atualizarObj = atualizar[0];
     return res.status(200).json(atualizarObj);
   } catch (Error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
@@ -126,13 +128,16 @@ const listaProduto = async (req, res) => {
 const deletaProduto = async (req, res) => {
   try {
     const { id } = req.params;
-    const keyImagem = req.product.produto_imagem.replace(
-      `https://${process.env.ENDPOINT_S3}/${process.env.BACKBLAZE_BUCKET}/`,
-      ""
-    );
-    const deleta = await knex("produtos").where("id", "=", id).del();
-    await deleteFile(keyImagem);
-    return res.status(204).json({ deleteFile });
+    const produto = req.product;
+    if (produto.produto_imagem) {
+      const keyImagem = produto.produto_imagem.replace(
+        `https://${process.env.ENDPOINT_S3}/${process.env.BACKBLAZE_BUCKET}/`,
+        ""
+      );
+      await deleteFile(keyImagem);
+    }
+    await knex("produtos").where("id", "=", id).del();
+    return res.status(204).json();
   } catch (error) {
     console.error(deleteFile);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });

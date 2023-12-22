@@ -72,14 +72,16 @@ const cadastrarPedido = async (req, res) => {
           valor_total: total,
         })
         .returning("id");
-
+      let pedidosProdutos;
       for (let j = 0; j < pedido_produtos.length; j++) {
-        await knex("pedido_produtos").insert({
-          pedido_id: pedidoID[0].id,
-          produto_id: pedido_produtos[j].produto_id,
-          quantidade_produto: pedido_produtos[j].quantidade_produto,
-          valor_produto: valor_produto[j].valor,
-        });
+        pedidosProdutos = await knex("pedido_produtos")
+          .insert({
+            pedido_id: pedidoID[0].id,
+            produto_id: pedido_produtos[j].produto_id,
+            quantidade_produto: pedido_produtos[j].quantidade_produto,
+            valor_produto: valor_produto[j].valor,
+          })
+          .returning("*");
       }
 
       const html = `
@@ -100,7 +102,7 @@ const cadastrarPedido = async (req, res) => {
         from: process.env.MAIL_FROM,
       });
 
-      return res.status(201).json();
+      return res.status(201).json(pedidosProdutos[0]);
     }
 
     return res.status(400).json({ mensagem: "Estoque insuficiente." });

@@ -19,7 +19,9 @@ const cadastrarCliente = async (req, res) => {
       })
       .returning(["id", "nome", "email"]);
 
-    return res.status(201).json(cliente);
+    const clienteCadastrado = cliente[0]
+
+    return res.status(201).json(clienteCadastrado);
   } catch (error) {
     return res.status(500).json({ mensagem: "erro interno do servidor!" });
   }
@@ -30,7 +32,7 @@ const editarCliente = async (req, res) => {
   const { nome, email, cpf, cep, rua, numero, bairro, cidade, estado } =
     req.body;
   try {
-    await knex("clientes")
+    const atualizarCliente = await knex("clientes")
       .update({
         nome: nome,
         email: email,
@@ -42,9 +44,11 @@ const editarCliente = async (req, res) => {
         cidade: cidade,
         estado: estado,
       })
-      .where("id", clienteID);
+      .where("id", clienteID).returning("*");
 
-    return res.status(204).json();
+    const clienteAtualizadoObjt = atualizarCliente[0]
+
+    return res.status(200).json(clienteAtualizadoObjt);
   } catch (error) {
     return res.status(500).json({ mensagem: "erro interno do servidor!" });
   }
