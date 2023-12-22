@@ -118,7 +118,15 @@ const detalharProduto = async (req, res) => {
 
 const listaProduto = async (req, res) => {
   try {
-    const produtos = await knex("produtos").select("*");
+    const { categoria_id } = req.query;
+    let produtos;
+    if (categoria_id) {
+      produtos = await knex("produtos")
+        .select("*")
+        .where("categoria_id", categoria_id);
+    } else {
+      produtos = await knex("produtos").select("*");
+    }
     return await res.status(200).json(produtos);
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
@@ -139,7 +147,6 @@ const deletaProduto = async (req, res) => {
     await knex("produtos").where("id", "=", id).del();
     return res.status(204).json();
   } catch (error) {
-    console.error(deleteFile);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 };

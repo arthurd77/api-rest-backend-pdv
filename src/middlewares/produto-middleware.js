@@ -42,8 +42,24 @@ const verificarProdutoVinculado = async (req, res, next) => {
   return next();
 };
 
+const categoriaQuery = async (req, res, next) => {
+  const { categoria_id } = req.query;
+
+  if (categoria_id) {
+    const categoria = await knex("categorias")
+      .select("*")
+      .where("id", categoria_id)
+      .first();
+    if (!categoria) {
+      return res.status(400).json({ mensagem: "Categorias não existe!" });
+    }
+  }
+  return next();
+};
+
 module.exports = {
   verificarCategoriaExiste,
   verificarProdutoExiste,
   verificarProdutoVinculado,
+  categoriaQuery,
 };
