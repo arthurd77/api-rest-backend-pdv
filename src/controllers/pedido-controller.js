@@ -124,7 +124,6 @@ const listarPedidos = async (req, res) => {
   } else {
     pedidos = await knex("pedidos").select("*");
   }
-
   for (const pedido of pedidos) {
     let pedido_produtos = await knex("pedido_produtos")
       .select("*")
