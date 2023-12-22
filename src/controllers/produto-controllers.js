@@ -29,12 +29,7 @@ const cadastrarProduto = async (req, res) => {
           produto_imagem: arquivoUrl.url,
         })
         .where("id", cadastrarImagem[0].id)
-        .returning([
-          "descricao",
-          "quantidade_estoque",
-          "valor",
-          "categoria_id",
-        ]);
+        .returning("*");
       produto[0].produto_imagem = arquivoUrl.url;
 
       const produtoObj = produto[0]
@@ -49,13 +44,7 @@ const cadastrarProduto = async (req, res) => {
         categoria_id,
         produto_imagem,
       })
-      .returning([
-        "descricao",
-        "quantidade_estoque",
-        "valor",
-        "categoria_id",
-        "produto_imagem",
-      ]);
+      .returning("*");
 
     const cadastrarObj = cadastrar[0]
 
