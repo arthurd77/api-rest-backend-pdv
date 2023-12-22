@@ -36,7 +36,9 @@ const cadastrarProduto = async (req, res) => {
           "categoria_id",
         ]);
       produto[0].produto_imagem = arquivoUrl.url;
-      return res.status(201).json(produto);
+
+      const produtoObj = produto[0]
+      return res.status(201).json(produtoObj);
     }
 
     const cadastrar = await knex("produtos")
@@ -55,7 +57,9 @@ const cadastrarProduto = async (req, res) => {
         "produto_imagem",
       ]);
 
-    return res.status(201).json(cadastrar);
+    const cadastrarObj = cadastrar[0]
+
+    return res.status(201).json(cadastrarObj);
   } catch (error) {
     return res.status(500).json({ mensagem: "Erro interno no servidor" });
   }
@@ -83,9 +87,17 @@ const editarProduto = async (req, res) => {
           categoria_id,
           produto_imagem: arquivoUrl.url,
         })
-        .where("id", productID);
+        .where("id", productID).returning([
+          "descricao",
+          "quantidade_estoque",
+          "valor",
+          "categoria_id",
+          "produto_imagem",
+        ]);
 
-      return res.status(204).json(atualizarImagem);
+      const atualizarImagemObj = atualizarImagem[0]
+
+      return res.status(200).json(atualizarImagemObj);
     }
     const imagem = null;
     const atualizar = await knex("produtos")
@@ -96,9 +108,16 @@ const editarProduto = async (req, res) => {
         categoria_id,
         produto_imagem: imagem,
       })
-      .where("id", productID);
+      .where("id", productID).returning([
+        "descricao",
+        "quantidade_estoque",
+        "valor",
+        "categoria_id",
+        "produto_imagem",
+      ]);
 
-    return res.status(204).json(atualizar);
+    const atualizarObj = atualizar[0]
+    return res.status(200).json(atualizarObj);
   } catch (Error) {
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
