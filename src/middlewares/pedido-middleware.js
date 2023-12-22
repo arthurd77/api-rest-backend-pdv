@@ -51,8 +51,24 @@ const clienteExiste = async (req, res, next) => {
   return next();
 };
 
+const clienteExisteQuery = async (req, res, next) => {
+  const { cliente_id } = req.query;
+
+  if (cliente_id) {
+    const cliente = await knex("clientes")
+      .select("*")
+      .where("id", cliente_id)
+      .first();
+    if (!cliente) {
+      return res.status(404).json({ mensagem: "usuario não encontrado" });
+    }
+  }
+  return next();
+};
+
 module.exports = {
   validarPedido,
   pedidoExiste,
   clienteExiste,
+  clienteExisteQuery,
 };

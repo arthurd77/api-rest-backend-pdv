@@ -6,15 +6,11 @@ const rotasProdutos = require("./produtos-routers");
 const pedidosRotas = require("./pedidos-routers");
 const rotas = express.Router();
 
-
-
-rotas.get("/categorias", listarCategoria);
-
+rotas.get("/categoria", listarCategoria);
 
 rotas.use(rotasUsuario);
 rotas.use(rotasClientes);
 rotas.use(rotasProdutos);
 rotas.use(pedidosRotas);
-
 
 module.exports = rotas;

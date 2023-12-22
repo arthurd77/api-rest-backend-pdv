@@ -14,5 +14,9 @@ pedidosRotas.post(
   controllerPedido.cadastrarPedido
 );
 
-pedidosRotas.get("/pedido", controllerPedido.listarPedidos);
+pedidosRotas.get(
+  "/pedido",
+  middllewarePedido.clienteExisteQuery,
+  controllerPedido.listarPedidos
+);
 module.exports = pedidosRotas;
