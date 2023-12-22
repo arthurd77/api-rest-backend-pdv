@@ -9,7 +9,8 @@ const { uploadFile } = require("../storege");
 const multer = require("../middlewares/multer-middleware");
 
 produtosRotas.post(
-  "/produto", multer.single('produto_imagem'),
+  "/produto",
+  multer.single("produto_imagem"),
   middlewaresUsuario.validarCampos(schemaCategoria),
   middlewareProduto.verificarCategoriaExiste,
 
@@ -17,14 +18,19 @@ produtosRotas.post(
 );
 
 produtosRotas.put(
-  "/produto/:id", multer.single('produto_imagem'),
+  "/produto/:id",
+  multer.single("produto_imagem"),
   middlewaresUsuario.validarCampos(schemaCategoria),
   middlewareProduto.verificarProdutoExiste,
   middlewareProduto.verificarCategoriaExiste,
   controllerProduto.editarProduto
 );
 
-produtosRotas.get("/produto", controllerProduto.listaProduto);
+produtosRotas.get(
+  "/produto",
+  middlewareProduto.categoriaQuery,
+  controllerProduto.listaProduto
+);
 
 produtosRotas.get("/produto/:id", controllerProduto.detalharProduto);
 
